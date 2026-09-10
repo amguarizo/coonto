@@ -1,0 +1,51 @@
+name: Deploy Coonto Alpha to Ubuntu
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to alpha.coonto.com.br
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        if: env.SSH_PRIVATE_KEY != ''
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy files via Rsync
+        if: env.SSH_PRIVATE_KEY != ''
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          rsync -avz --delete \
+            --exclude '.git*' \
+            --exclude '.github*' \
+            --exclude 'docs*' \
+            --exclude '*.md' \
+            --exclude '*.bat' \
+            --exclude '*.sh' \
+            ./ ${SERVER_USER}@${SERVER_HOST}:${DEPLOY_PATH}
+
+      - name: Notify configuration needed
+        if: env.SSH_PRIVATE_KEY == ''
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          echo "::warning ::SSH_PRIVATE_KEY secret não configurado no GitHub. O deploy automático será habilitado assim que os Secrets do repositório forem preenchidos."

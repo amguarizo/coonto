@@ -1,0 +1,34 @@
+# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# IDEs e Editores
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Variáveis de ambiente e segredos
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Pacotes e temporários
+*.zip
+*.tar.gz
+*.log
+scratch/
+tmp/

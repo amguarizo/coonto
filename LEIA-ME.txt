@@ -1,0 +1,58 @@
+COONTO ALPHA v0.3 — VERTICAL SLICE
+===================================
+
+OBJETIVO
+-------
+Primeira sequência de qualidade próxima da experiência final, usando
+a Revolta dos Canjicas como vertical slice.
+
+COMO TESTAR NO WINDOWS
+----------------------
+1. Extraia a pasta.
+2. Clique duas vezes em INICIAR_COONTO.bat.
+3. O navegador abrirá index.html diretamente.
+Não precisa de Python nem localhost.
+
+O QUE ESTA VERSÃO MUDA
+----------------------
+- Textos narrativos mais densos.
+- Imagens reais integradas ao Alpha, derivadas da direção visual aprovada.
+- Áudio reduzido a um único ícone ▶ discreto.
+- Voz de demonstração usa Speech Synthesis do navegador.
+- Estrutura pronta para substituir a voz por MP3/OGG de ElevenLabs.
+- Decisão → consequência → E Machado? → pedagogia → mapa.
+- Mapa narrativo em SVG, com ramificações reais e caminho do usuário.
+- Aplicativo estático, portanto pronto para Nginx/Apache.
+
+ÁUDIO PROFISSIONAL
+------------------
+A pasta assets/audio já está criada.
+Na próxima etapa podemos trocar a síntese do navegador por arquivos de voz:
+  assets/audio/revolta-abertura.mp3
+  assets/audio/revolta-tensao.mp3
+  assets/audio/revolta-consequencia-*.mp3
+  assets/audio/revolta-machado.mp3
+A interface não muda: continua apenas o ícone ▶.
+
+PUBLICAÇÃO EM LINUX / NGINX
+---------------------------
+Sugestão:
+  /var/www/coonto-alpha
+
+Copie o conteúdo desta pasta para esse diretório.
+Há um arquivo:
+  nginx-alpha.coonto.com.br.conf
+
+Ele é um modelo de virtual host para:
+  alpha.coonto.com.br
+
+Depois o DNS do subdomínio deve apontar para o IP público do servidor.
+Quando o IP e a distribuição Linux estiverem definidos, podemos fechar os
+comandos exatos de instalação, Nginx e HTTPS.
+
+OBSERVAÇÃO VISUAL
+-----------------
+As imagens desta versão são recortes/ativos derivados do mockup visual aprovado,
+para que o Alpha já seja visual durante a validação. A próxima etapa pode trocar
+cada imagem por ilustrações de cena em resolução final e linguagem artística
+consistente, sem alterar a engine.
