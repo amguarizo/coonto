@@ -136,9 +136,9 @@ function observe() {
     ["social", "Os critérios de Bacamarte passaram a interferir na vida social."]
   ];
   shell(`
-    ${hero("assets/images/revolta-multidao.jpg")}
+    ${hero("assets/images/revolta-multidao.jpg", "hero-observe")}
     <section class="content">
-      ${pageHeader("OBSERVAR", "O que mudou em Itaguaí?", false)}
+      ${pageHeader("OBSERVAR", "O que mudou em Itaguaí?", true)}
       <p class="instruction">Selecione tudo o que a cena permite perceber antes de interpretar.</p>
       <div class="choices multi">
         ${opts.map(([id,t])=>`
@@ -161,10 +161,12 @@ window.toggleObservation = function(id) {
 
 function observeFeedback() {
   shell(`
-    <section class="content feedback-screen observation-feedback">
-      <div class="eyebrow">OBSERVAÇÃO</div>
-      <h2>O problema saiu da Casa Verde e tomou a cidade.</h2>
-      <p class="copy">Antes, as decisões de Bacamarte afetavam diretamente quem era internado. Agora, seus critérios mudam também o comportamento de quem está fora da Casa Verde: medo, tensão e revolta passam a organizar a vida de Itaguaí.</p>
+    <section class="content feedback-screen observation-feedback visual-feedback">
+      <div class="feedback-visual feedback-city" aria-hidden="true"></div>
+      ${pageHeader("OBSERVAÇÃO", "O problema saiu da Casa Verde e tomou a cidade.", true)}
+      <div class="body-copy" data-narration>
+        <p>Antes, as decisões de Bacamarte afetavam diretamente quem era internado. Agora, seus critérios mudam também o comportamento de quem está fora da Casa Verde: medo, tensão e revolta passam a organizar a vida de Itaguaí.</p>
+      </div>
       <div class="mini-connection"><span>CASA VERDE</span><i>→</i><span>ITAGUAÍ</span></div>
       <button class="primary" onclick="go('interpret')">Interpretar <span>→</span></button>
     </section>
@@ -173,9 +175,10 @@ function observeFeedback() {
 
 function interpret() {
   shell(`
-    ${hero("assets/images/revolta-casa-verde.jpg")}
+    ${hero("assets/images/revolta-casa-verde.jpg", "hero-soft")}
     <section class="content">
-      ${pageHeader("INTERPRETAR", "O conflito é apenas entre ciência e ignorância popular?", false)}
+      ${pageHeader("INTERPRETAR", "O conflito é apenas entre ciência e ignorância popular?", true)}
+      <p class="instruction" data-narration>Considere o que a cena revelou sobre a Casa Verde e sobre a cidade antes de escolher a leitura mais sustentada.</p>
       <div class="choices">
         ${choiceButton("A", "Sim", "A população simplesmente não compreende o trabalho científico.", "interpretation")}
         ${choiceButton("B", "Não", "A questão também envolve quem ganhou poder para definir o que é normal.", "interpretation")}
@@ -202,10 +205,13 @@ window.selectSingle = function(field, value) {
 function interpretFeedback() {
   const good = state.interpretation === "B";
   shell(`
-    <section class="content feedback-screen">
+    <section class="content feedback-screen visual-feedback">
+      <div class="feedback-visual feedback-casa" aria-hidden="true"></div>
       <div class="result-label">${good ? "INTERPRETAÇÃO MAIS SUSTENTADA" : "VOLTE ÀS EVIDÊNCIAS"}</div>
-      <h2>${good ? "O problema não é apenas médico." : "A leitura pode ir além dessa explicação."}</h2>
-      <p class="copy">Quando uma instituição passa a decidir quem é racional e quem deve ser isolado, sua autoridade ultrapassa a medicina. A revolta também disputa o poder de definir a normalidade.</p>
+      ${pageHeader("", good ? "O problema não é apenas médico." : "A leitura pode ir além dessa explicação.", true)}
+      <div class="body-copy" data-narration>
+        <p>Quando uma instituição passa a decidir quem é racional e quem deve ser isolado, sua autoridade ultrapassa a medicina. A revolta também disputa o poder de definir a normalidade.</p>
+      </div>
       <button class="primary" onclick="go('evidence')">Provar com evidências <span>→</span></button>
     </section>
   `, 54);
@@ -214,8 +220,8 @@ function interpretFeedback() {
 function evidence() {
   shell(`
     <section class="content">
-      ${pageHeader("PROVAR", "Qual evidência sustenta melhor essa interpretação?", false)}
-      <p class="instruction">Escolha o elemento que melhor conecta a Casa Verde ao exercício de poder.</p>
+      ${pageHeader("PROVAR", "Qual evidência sustenta melhor essa interpretação?", true)}
+      <p class="instruction" data-narration>Escolha o elemento que melhor conecta a Casa Verde ao exercício de poder.</p>
       <div class="evidence-list">
         ${evidenceButton("A", "A Casa Verde passa a receber pessoas cada vez mais diversas.")}
         ${evidenceButton("B", "Bacamarte estudou medicina na Europa.")}
@@ -231,13 +237,14 @@ function evidenceButton(code, text) {
 function evidenceFeedback() {
   const good = state.evidence === "A";
   shell(`
-    <section class="content feedback-screen">
-      <div class="discovery-mark">◆</div>
+    <section class="content feedback-screen connection-feedback">
       <div class="eyebrow">CONEXÃO DESCOBERTA</div>
-      <h2>${good ? "CIÊNCIA → AUTORIDADE → PODER" : "A evidência decisiva está no alcance da Casa Verde."}</h2>
-      <p class="copy">Quando os critérios de internação se expandem, Bacamarte passa a exercer autoridade sobre um número cada vez maior de habitantes. É essa ampliação — e não sua formação acadêmica ou a profissão de Porfírio — que sustenta a interpretação.</p>
-      <div class="concept-chain">
-        <span>CIÊNCIA</span><i>→</i><span>AUTORIDADE</span><i>→</i><span>PODER</span>
+      ${pageHeader("", good ? "CIÊNCIA → AUTORIDADE → PODER" : "A evidência decisiva está no alcance da Casa Verde.", true)}
+      <div class="body-copy" data-narration>
+        <p>Quando os critérios de internação se expandem, Bacamarte passa a exercer autoridade sobre um número cada vez maior de habitantes. É essa ampliação — e não sua formação acadêmica ou a profissão de Porfírio — que sustenta a interpretação.</p>
+      </div>
+      <div class="concept-chain animated-chain" aria-label="Ciência leva a autoridade, que leva a poder">
+        <span style="--i:0">CIÊNCIA</span><i style="--i:1">→</i><span style="--i:2">AUTORIDADE</span><i style="--i:3">→</i><span style="--i:4">PODER</span>
       </div>
       <button class="primary" onclick="go('contrast')">Continuar <span>→</span></button>
     </section>
@@ -247,11 +254,17 @@ function evidenceFeedback() {
 function contrast() {
   shell(`
     <section class="content">
-      ${pageHeader("CONECTAR", "Observe a transformação", false)}
-      <div class="contrast-grid">
-        <div class="contrast-card"><div class="eyebrow">ANTES</div><p>A Casa Verde surge como instituição de estudo e tratamento da loucura.</p></div>
+      ${pageHeader("CONECTAR", "Observe a transformação", true)}
+      <div class="contrast-grid" data-narration>
+        <div class="contrast-card with-thumb">
+          <div class="contrast-thumb before-thumb"></div>
+          <div><div class="eyebrow">ANTES</div><p>A Casa Verde surge como instituição de estudo e tratamento da loucura.</p></div>
+        </div>
         <div class="contrast-arrow">↓</div>
-        <div class="contrast-card"><div class="eyebrow">AGORA</div><p>Grande parte da cidade teme ser enquadrada pelos critérios de Bacamarte.</p></div>
+        <div class="contrast-card with-thumb">
+          <div class="contrast-thumb after-thumb"></div>
+          <div><div class="eyebrow">AGORA</div><p>Grande parte da cidade teme ser enquadrada pelos critérios de Bacamarte.</p></div>
+        </div>
       </div>
       <div class="question-box">
         <b>O que essa transformação sugere?</b>
@@ -269,8 +282,8 @@ function inference() {
   shell(`
     ${hero("assets/images/bacamarte-estudo.jpg")}
     <section class="content">
-      ${pageHeader("INFERIR", "O que seria coerente com Bacamarte?", false)}
-      <p class="copy">Agora use o que você já descobriu sobre o personagem — não para adivinhar o autor, mas para testar se compreendeu sua lógica.</p>
+      ${pageHeader("INFERIR", "O que seria coerente com Bacamarte?", true)}
+      <p class="copy" data-narration>Agora use o que você já descobriu sobre o personagem — não para adivinhar o autor, mas para testar se compreendeu sua lógica.</p>
       <div class="choices">
         ${choiceButton("A", "Recuar", "Suspender imediatamente a experiência diante da multidão.", "inference")}
         ${choiceButton("B", "Defender a investigação", "Manter sua posição apesar da pressão popular.", "inference")}
@@ -283,15 +296,14 @@ function inference() {
 function inferenceFeedback() {
   const good = state.inference === "B";
   shell(`
-    ${hero("assets/images/casa-verde.jpg")}
+    ${hero("assets/images/bacamarte-estudo.jpg", "hero-bacamarte")}
     <section class="content">
       <div class="result-label">${good ? "VOCÊ COMPREENDEU A LÓGICA DE BACAMARTE" : "OBSERVE O PERSONAGEM"}</div>
-      <h2>Bacamarte não recua.</h2>
+      ${pageHeader("OBSERVE O PERSONAGEM", "Bacamarte não recua.", true)}
       <div class="body-copy" data-narration>
         <p>Diante da multidão, ele preserva uma serenidade quase desconcertante e sustenta sua posição. Para Bacamarte, ceder à pressão das ruas seria submeter uma questão que considera científica à vontade popular.</p>
         <p>O efeito da cena não é apenas mostrar coragem ou obstinação. Ela aumenta a distância entre o alienista e a cidade — e reforça a tensão entre razão declarada e poder exercido.</p>
       </div>
-      ${audioButton()}
       <button class="primary" onclick="go('recall')">Lembrar <span>→</span></button>
     </section>
   `, 90);
@@ -300,9 +312,8 @@ function inferenceFeedback() {
 function recall() {
   shell(`
     <section class="content recall-screen">
-      <div class="eyebrow">LEMBRAR</div>
-      <h2>Sem voltar ao texto:</h2>
-      <p class="lead">Por que a Revolta dos Canjicas é mais do que uma revolta contra um médico?</p>
+      ${pageHeader("LEMBRAR", "Sem voltar ao texto:", true)}
+      <p class="lead" data-narration>Por que a Revolta dos Canjicas é mais do que uma revolta contra um médico?</p>
       <textarea id="recallAnswer" placeholder="Escreva em uma ou duas frases..."></textarea>
       <button class="primary" onclick="finishRecall()">Registrar minha leitura <span>→</span></button>
       <button class="secondary" onclick="go('map')">Prefiro continuar sem escrever</button>
