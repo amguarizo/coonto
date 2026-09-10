@@ -34,14 +34,16 @@ jobs:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
+          ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${DEPLOY_PATH}"
           rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no" \
             --exclude '.git*' \
             --exclude '.github*' \
             --exclude 'docs*' \
             --exclude '*.md' \
             --exclude '*.bat' \
             --exclude '*.sh' \
-            ./ ${SERVER_USER}@${SERVER_HOST}:${DEPLOY_PATH}
+            ./ ${SERVER_USER}@${SERVER_HOST}:${DEPLOY_PATH}/
 
       - name: Notify configuration needed
         if: env.SSH_PRIVATE_KEY == ''
