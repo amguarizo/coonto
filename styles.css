@@ -38,7 +38,7 @@ h1{font:3.05rem/.95 Georgia,serif;margin:7px 0 16px}
 h2{font:2rem/1.08 Georgia,serif;margin:7px 0 20px}
 .lead{font:1.65rem/1.22 Georgia,serif;margin:.2rem 0 16px}
 .copy,.body-copy{color:#d1cdc2;line-height:1.68;font-family:Georgia,serif;font-size:1.05rem}
-.body-copy p{margin:0 0 17px}
+.body-copy p{margin:0 0 22px}
 .instruction{color:#aaa69d;line-height:1.55;margin:-4px 0 18px}
 
 .section-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between}
@@ -113,3 +113,13 @@ display:flex;flex-direction:column;align-items:center}
  body{padding:28px 0}
  .phone{min-height:calc(100vh - 56px);border:1px solid #244239;border-radius:30px}
 }
+
+/* v0.4.1 — review refinements */
+.observation-feedback{
+  padding-top:38px;
+  min-height:auto;
+  justify-content:flex-start;
+}
+.observation-feedback h2{margin-top:8px}
+.observation-feedback .mini-connection{margin:22px 0 8px}
+.section-head .audio-icon{margin-top:2px}

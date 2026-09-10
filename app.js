@@ -29,7 +29,7 @@ function shell(content, progress=0) {
     <header class="topbar">
       <div class="brand">coonto</div>
       <div class="work">O Alienista</div>
-      <div class="progress">${progress}%</div>
+      <div class="progress">${progress === null ? "" : `${progress}%`}</div>
     </header>
     ${content}
   </main>`;
@@ -95,11 +95,11 @@ function home() {
       <div class="smallcaps">MACHADO DE ASSIS</div>
       <h1>O Alienista</h1>
       <p class="lead">Não apenas leia. Descubra a obra.</p>
-      <p class="copy">Entre em Itaguaí. Observe o que muda, interprete as pistas, encontre evidências e construa o mapa de compreensão da história.</p>
+      <p class="copy">Entre em Itaguaí. Acompanhe a história, descubra suas pistas e construa sua compreensão da obra.</p>
       <button class="primary" onclick="go('opening')">COMEÇAR <span>→</span></button>
       <div class="meta">Alpha v0.4 · Discovery Model · ≈ 6 min</div>
     </section>
-  `, 0);
+  `, null);
 }
 
 function opening() {
@@ -117,7 +117,7 @@ function opening() {
 
 function revolt() {
   shell(`
-    ${hero("assets/images/casa-verde.jpg")}
+    ${hero("assets/images/revolta-multidao.jpg")}
     <section class="content">
       ${pageHeader("A CENA", "A revolta chega às ruas")}
       <div class="body-copy" data-narration>
@@ -136,7 +136,7 @@ function observe() {
     ["social", "Os critérios de Bacamarte passaram a interferir na vida social."]
   ];
   shell(`
-    ${hero("assets/images/itaguai-rua.jpg")}
+    ${hero("assets/images/revolta-multidao.jpg")}
     <section class="content">
       ${pageHeader("OBSERVAR", "O que mudou em Itaguaí?", false)}
       <p class="instruction">Selecione tudo o que a cena permite perceber antes de interpretar.</p>
@@ -160,15 +160,12 @@ window.toggleObservation = function(id) {
 };
 
 function observeFeedback() {
-  const useful = ["medical","fear","social"].filter(x=>state.selectedObservations.has(x)).length;
-  const selectedWrong = state.selectedObservations.has("lost");
   shell(`
-    <section class="content feedback-screen">
-      <div class="discovery-mark">◉</div>
+    <section class="content feedback-screen observation-feedback">
       <div class="eyebrow">OBSERVAÇÃO</div>
-      <h2>${useful >= 2 && !selectedWrong ? "Você percebeu a mudança de escala." : "Há uma mudança de escala importante aqui."}</h2>
-      <p class="copy">A Casa Verde não afeta apenas seus internados. Os critérios de Bacamarte começam a modificar o comportamento de toda a cidade — inclusive de quem nunca entrou nela.</p>
-      <div class="mini-connection"><span>CASA VERDE</span><i>→</i><span>VIDA SOCIAL</span></div>
+      <h2>O problema saiu da Casa Verde e tomou a cidade.</h2>
+      <p class="copy">Antes, as decisões de Bacamarte afetavam diretamente quem era internado. Agora, seus critérios mudam também o comportamento de quem está fora da Casa Verde: medo, tensão e revolta passam a organizar a vida de Itaguaí.</p>
+      <div class="mini-connection"><span>CASA VERDE</span><i>→</i><span>ITAGUAÍ</span></div>
       <button class="primary" onclick="go('interpret')">Interpretar <span>→</span></button>
     </section>
   `, 38);
