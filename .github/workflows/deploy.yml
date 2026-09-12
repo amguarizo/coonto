@@ -1,4 +1,4 @@
-name: Deploy Coonto Alpha to Ubuntu
+name: Deploy Coonto Production to Ubuntu
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to alpha.coonto.com.br
+    name: Deploy to coonto.co
     runs-on: ubuntu-latest
 
     steps:

@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to dev.coonto.com.br
+    name: Deploy to dev.coonto.co
     runs-on: ubuntu-latest
 
     steps:

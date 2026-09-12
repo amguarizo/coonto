@@ -2,7 +2,8 @@
 
 Plataforma interativa de aprendizagem e literatura. O vertical slice atual do Alpha é focado na obra **O Alienista**, de Machado de Assis.
 
-- **Ambiente de Produção (Alpha)**: [https://alpha.coonto.com.br](https://alpha.coonto.com.br)
+- **Ambiente de Produção**: [https://coonto.co](https://coonto.co)
+- **Ambiente de Desenvolvimento (Dev)**: [https://dev.coonto.co](https://dev.coonto.co)
 - **Repositório Oficial**: [https://github.com/amguarizo/coonto](https://github.com/amguarizo/coonto)
 
 ---
@@ -12,11 +13,11 @@ Plataforma interativa de aprendizagem e literatura. O vertical slice atual do Al
 O projeto adota o seguinte modelo de branching:
 
 ```text
-feature/* ──► develop ──► homologação / validação ──► main ──► deploy automático ──► alpha.coonto.com.br
+feature/* ──► develop ──► dev.coonto.co ──► homologação ──► main ──► deploy automático ──► coonto.co
 ```
 
-- **`main`**: Versão estável e publicada. O conteúdo desta branch reflete exatamente o que está rodando em produção (`alpha.coonto.com.br`).
-- **`develop`**: Versão em evolução contínua. Todas as novas funcionalidades e ajustes são integrados primeiro aqui.
+- **`main`**: Versão estável e publicada. O conteúdo desta branch reflete exatamente o que está rodando em produção (`https://coonto.co`).
+- **`develop`**: Versão em evolução contínua. Publicada automaticamente em (`https://dev.coonto.co`).
 - **`feature/*`**: Branches de curta duração para desenvolvimento isolado (ex: `feature/audio`, `feature/mapa`, `feature/engine`).
 
 ---
@@ -67,7 +68,7 @@ coonto/
 
 ---
 
-## 🚢 Deploy para `alpha.coonto.com.br`
+## 🚢 Deploy para `coonto.co`
 
 ### 1. Deploy Automático (GitHub Actions)
 O repositório conta com o workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) acionado a cada `push` na branch `main`.

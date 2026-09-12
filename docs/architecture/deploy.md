@@ -1,4 +1,4 @@
-# Infraestrutura e Deploy do Coonto (Alpha e Dev)
+# Infraestrutura e Deploy do Coonto (Produção e Dev)
 
 ## Visão Geral da Infraestrutura
 
@@ -6,26 +6,29 @@ Os ambientes estão hospedados no mesmo servidor Ubuntu LTS utilizando **Caddy**
 
 | Ambiente | Domínio Público | Branch Git | Workflow GitHub Actions | Caminho no Host (VPS) | Caminho no Container Caddy |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Produção / Alpha** | `https://alpha.coonto.com.br` | `main` | `.github/workflows/deploy.yml` | `/opt/altdesk/deploy/static/coonto-alpha` | `/var/www/static/coonto-alpha` |
-| **Desenvolvimento / Dev** | `https://dev.coonto.com.br` | `develop` | `.github/workflows/deploy-dev.yml` | `/opt/altdesk/deploy/static/coonto-dev` | `/var/www/static/coonto-dev` |
+| **Produção / Alpha** | `https://coonto.co` | `main` | `.github/workflows/deploy.yml` | `/opt/altdesk/deploy/static/coonto-alpha` | `/var/www/static/coonto-alpha` |
+| **Desenvolvimento / Dev** | `https://dev.coonto.co` | `develop` | `.github/workflows/deploy-dev.yml` | `/opt/altdesk/deploy/static/coonto-dev` | `/var/www/static/coonto-dev` |
 
-- **DNS**: Gerenciado no painel da **Locaweb** (Nameservers `ns1.locaweb.com.br` e `ns2.locaweb.com.br`).
+- **DNS**: Gerenciado no painel da **Locaweb** (Nameservers `ns1.locaweb.com.br`, `ns2.locaweb.com.br` e `ns3.locaweb.com.br`).
 - **Servidor Web**: Caddy (Docker) com HTTPS automático para todos os domínios.
 
 ---
 
 ## 1. Configuração de DNS na Locaweb
 
-No painel de gerenciamento de DNS do domínio `coonto.com.br` na Locaweb, certifique-se de que os subdomínios apontem para o IP da VPS:
+No painel de gerenciamento de DNS do domínio `coonto.co` na Locaweb, certifique-se de que as entradas apontem para o IP da VPS (`191.252.110.173`):
 
-1. **Subdomínio Alpha**:
+1. **Domínio Principal e WWW**:
    - **Tipo**: `A`
-   - **Host / Nome**: `alpha`
-   - **Destino**: `IP_PUBLICO_DO_SERVIDOR_UBUNTU`
+   - **Host / Nome**: `@` (ou vazio)
+   - **Destino**: `191.252.110.173`
+   - **Tipo**: `CNAME`
+   - **Host / Nome**: `www`
+   - **Destino**: `coonto.co.`
 2. **Subdomínio Dev**:
-   - **Tipo**: `A`
+   - **Tipo**: `A` (ou Apontamento)
    - **Host / Nome**: `dev`
-   - **Destino**: `IP_PUBLICO_DO_SERVIDOR_UBUNTU`
+   - **Destino**: `191.252.110.173`
 
 ---
 
@@ -36,13 +39,19 @@ O Caddyfile principal fica localizado no host em:
 /opt/altdesk/deploy/caddy/Caddyfile
 ```
 
-### Bloco para `dev.coonto.com.br`:
-
-Adicione ao final do `/opt/altdesk/deploy/caddy/Caddyfile`:
+### Blocos do Coonto:
 
 ```caddyfile
-# ─── COONTO DEV ───
-dev.coonto.com.br {
+# --- COONTO PRODUCAO ---
+coonto.co, www.coonto.co {
+        root * /var/www/static/coonto-alpha
+        encode gzip zstd
+        file_server
+        try_files {path} /index.html
+}
+
+# --- COONTO DEV ---
+dev.coonto.co {
         root * /var/www/static/coonto-dev
         encode gzip zstd
         file_server
