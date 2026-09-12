@@ -2,8 +2,10 @@
 
 Plataforma interativa de aprendizagem e literatura. O vertical slice atual do Alpha é focado na obra **O Alienista**, de Machado de Assis.
 
-- **Ambiente de Produção**: [https://coonto.co](https://coonto.co)
-- **Ambiente de Desenvolvimento (Dev)**: [https://dev.coonto.co](https://dev.coonto.co)
+- **Ambiente de Produção (Principal)**: [https://coonto.com](https://coonto.com)
+- **Ambiente de Desenvolvimento (Dev/Testes)**: [https://dev.coonto.com](https://dev.coonto.com)
+- **Ambiente Main (Em Construção)**: [https://main.coonto.com](https://main.coonto.com)
+- **Domínios com Redirecionamento**: `coonto.co` e `coonto.com.br` redirecionam permanentemente para `https://coonto.com`.
 - **Repositório Oficial**: [https://github.com/amguarizo/coonto](https://github.com/amguarizo/coonto)
 
 ---
@@ -13,11 +15,11 @@ Plataforma interativa de aprendizagem e literatura. O vertical slice atual do Al
 O projeto adota o seguinte modelo de branching:
 
 ```text
-feature/* ──► develop ──► dev.coonto.co ──► homologação ──► main ──► deploy automático ──► coonto.co
+feature/* ──► develop ──► dev.coonto.com ──► homologação ──► main ──► deploy automático ──► coonto.com
 ```
 
-- **`main`**: Versão estável e publicada. O conteúdo desta branch reflete exatamente o que está rodando em produção (`https://coonto.co`).
-- **`develop`**: Versão em evolução contínua. Publicada automaticamente em (`https://dev.coonto.co`).
+- **`main`**: Versão estável e publicada. O conteúdo desta branch reflete exatamente o que está rodando em produção (`https://coonto.com`).
+- **`develop`**: Versão em evolução contínua. Publicada automaticamente em (`https://dev.coonto.com`).
 - **`feature/*`**: Branches de curta duração para desenvolvimento isolado (ex: `feature/audio`, `feature/mapa`, `feature/engine`).
 
 ---
@@ -68,7 +70,7 @@ coonto/
 
 ---
 
-## 🚢 Deploy para `coonto.co`
+## 🚢 Deploy para `coonto.com`
 
 ### 1. Deploy Automático (GitHub Actions)
 O repositório conta com o workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) acionado a cada `push` na branch `main`.
