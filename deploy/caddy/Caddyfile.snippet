@@ -10,7 +10,7 @@ coonto.co, www.coonto.co, coonto.com.br, www.coonto.com.br, www.coonto.com {
 
 # --- COONTO PRODUÇÃO (Domínio Principal) ---
 coonto.com {
-    root * /var/www/static/coonto-alpha
+    root * /opt/coonto/prod
     encode gzip zstd
     file_server
     try_files {path} /index.html
@@ -18,7 +18,7 @@ coonto.com {
 
 # --- COONTO DEV / TESTES (Branch develop) ---
 dev.coonto.com {
-    root * /var/www/static/coonto-dev
+    root * /opt/coonto/dev
     encode gzip zstd
     file_server
     try_files {path} /index.html
@@ -26,7 +26,7 @@ dev.coonto.com {
 
 # --- COONTO MAIN (Em Construção) ---
 main.coonto.com {
-    root * /var/www/static/coonto-main
+    root * /opt/coonto/main
     encode gzip zstd
     file_server
     try_files {path} /index.html

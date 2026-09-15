@@ -1,0 +1,93 @@
+# ═══════════════════════════════════════════════════
+# AltDesk — Caddyfile (Proxy Reverso com HTTPS Automático)
+#
+# O Caddy gerencia automaticamente os certificados
+# Let's Encrypt para todos os domínios listados abaixo.
+# Nenhuma configuração manual de SSL é necessária.
+# ═══════════════════════════════════════════════════
+
+{
+	email admin@altdesk.com.br
+}
+
+# ─── PÁGINA "EM CONSTRUÇÃO" (Domínio Principal) ───
+altdesk.com.br {
+	@rootPath {
+		path /
+	}
+	handle @rootPath {
+		root * /var/www/static
+		file_server
+	}
+
+	handle {
+		redir https://app.altdesk.com.br{uri} permanent
+	}
+}
+
+www.altdesk.com.br {
+	redir https://altdesk.com.br{uri} permanent
+}
+
+# ─── FRONTEND (App Cliente) ───
+app.altdesk.com.br {
+	reverse_proxy altdesk_web_prod:80
+}
+
+# ─── FRONTEND (SuperAdmin) ───
+admin.altdesk.com.br {
+	reverse_proxy altdesk_admin_web_prod:80
+}
+
+# ─── BACKEND API (App API) ───
+api.altdesk.com.br {
+	reverse_proxy altdesk_api_prod:3002
+
+	# Permitir uploads maiores (ex: imagens de perfil)
+	request_body {
+		max_size 50MB
+	}
+}
+
+# ─── ADMIN BACKEND API ───
+api-admin.altdesk.com.br {
+	reverse_proxy altdesk_admin_api_prod:3002
+
+	# Permitir uploads maiores
+	request_body {
+		max_size 50MB
+	}
+}
+
+# ═══════════════════════════════════════════════════
+# ─── COONTO ───
+coonto.co, www.coonto.co, coonto.com.br, www.coonto.com.br, www.coonto.com {
+	redir https://coonto.com{uri} permanent
+}
+
+coonto.com {
+	root * /opt/coonto/prod
+	encode gzip zstd
+	file_server
+	try_files {path} /index.html
+}
+
+dev.coonto.com {
+	root * /opt/coonto/dev
+	encode gzip zstd
+	file_server
+	try_files {path} /index.html
+}
+
+main.coonto.com {
+	root * /opt/coonto/main
+	encode gzip zstd
+	file_server
+	try_files {path} /index.html
+}
+
+# ═══════════════════════════════════════════════════
+# ─── WUZAPI ───
+wuzapi.altdesk.com.br {
+	reverse_proxy wuzapi-server:8080
+}
